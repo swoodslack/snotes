@@ -1,0 +1,7 @@
+dist
+package
+.slack/apps.json
+.slack/cli.json
+.vscode/settings.json
+triggers/.gitignore
+.DS_Store
