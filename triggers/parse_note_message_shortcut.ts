@@ -5,14 +5,13 @@ export const ParseNoteMessageShortcut = DefineTrigger(
   "parse_note_message_shortcut",
   {
     type: TriggerTypes.MessageShortcut,
-    name: "Parse Note",
+    name: "Turn Note into Actions",
     description: "Takes the provided note and parses it to items of work",
   },
 )
   .runs(ParseNoteWorkflow)
   .withInputs((ctx) => ({
-    channel_id: ctx.data.channel_id,
-    message_id: ctx.data.message.ts,
-    tags: [ctx.data.channel_id],
+    note_channel_id: ctx.data.channel_id,
+    note_message_ts: ctx.data.message.ts,
     note: ctx.data.message.text,
   }));

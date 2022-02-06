@@ -1,4 +1,4 @@
-import { DefineFunction, Schema } from "slack-cloud-sdk/mod.ts";
+/*import { DefineFunction, Schema } from "slack-cloud-sdk/mod.ts";
 import { PostItem } from "../shared/post_item.ts";
 
 export const PostItemFunction = DefineFunction(
@@ -25,23 +25,17 @@ export const PostItemFunction = DefineFunction(
           type: Schema.types.string,
           description: "The item summary",
         },
-        assignees: {
-          type: Schema.types.array,
-          items: {
-            type: Schema.slack.types.user_id,
-          },
-          description: "The item assignees",
+        who: {
+          type: Schema.slack.types.user_id,
+          description: "Who the item is for",
         },
-        dates: {
+        where: {
+          type: Schema.slack.types.channel_id,
+          description: "Where the item should be routed",
+        },
+        when: {
           type: Schema.slack.types.timestamp,
-          description: "The item dates",
-        },
-        references: {
-          type: Schema.types.array,
-          items: {
-            type: Schema.slack.types.user_id,
-          },
-          description: "The item references",
+          description: "When the item needs attention",
         },
         content: {
           type: Schema.types.string,
@@ -63,17 +57,16 @@ export const PostItemFunction = DefineFunction(
     PostItem(
       client,
       env,
-      "",
       inputs.items_channel_id,
       inputs.id,
       inputs.type,
       inputs.summary,
-      (inputs.assignees) ? inputs.assignees?.toString() : "",
-      (inputs.references) ? inputs.references?.toString() : "",
-      (inputs.dates) ? inputs.dates : 0,
-      (inputs.content) ? inputs.content : "",
-      (inputs.is_important) ? inputs.is_important : false,
-      (inputs.is_urgent) ? inputs.is_urgent : false,
+      inputs.who ? inputs.who : "",
+      inputs.where ? inputs.where : "",
+      inputs.when ? inputs.when : 0,
+      inputs.content ? inputs.content : "",
+      inputs.is_important ? inputs.is_important : false,
+      inputs.is_urgent ? inputs.is_urgent : false,
     );
 
     return await {
@@ -81,3 +74,4 @@ export const PostItemFunction = DefineFunction(
     };
   },
 );
+*/

@@ -40,23 +40,17 @@ export const PostItemWorkflow = DefineWorkflow(
           type: Schema.types.string,
           description: "The item summary",
         },
-        assignees: {
-          type: Schema.types.array,
-          items: {
-            type: Schema.slack.types.user_id,
-          },
-          description: "The item assignees",
+        who: {
+          type: Schema.slack.types.user_id,
+          description: "Who the item is for",
         },
-        dates: {
+        where: {
+          type: Schema.slack.types.channel_id,
+          description: "Where the item should be routed",
+        },
+        when: {
           type: Schema.slack.types.timestamp,
-          description: "The item dates",
-        },
-        references: {
-          type: Schema.types.array,
-          items: {
-            type: Schema.slack.types.user_id,
-          },
-          description: "The item references",
+          description: "When the item needs attention",
         },
         content: {
           type: Schema.types.string,
@@ -80,9 +74,9 @@ PostItemWorkflow.addStep(PostItemFunction, {
   id: PostItemWorkflow.inputs.id,
   type: PostItemWorkflow.inputs.type,
   summary: PostItemWorkflow.inputs.summary,
-  assignees: PostItemWorkflow.inputs.assignees,
-  dates: PostItemWorkflow.inputs.dates,
-  references: PostItemWorkflow.inputs.references,
+  who: PostItemWorkflow.inputs.who,
+  where: PostItemWorkflow.inputs.where,
+  when: PostItemWorkflow.inputs.when,
   content: PostItemWorkflow.inputs.content,
   is_important: PostItemWorkflow.inputs.is_important,
   is_urgent: PostItemWorkflow.inputs.is_urgent,

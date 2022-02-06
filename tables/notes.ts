@@ -1,19 +1,16 @@
 import { DefineTable, Schema } from "slack-cloud-sdk/mod.ts";
 
-export const Reversals = DefineTable("reversals", {
-  primary_key: "id",
+export const Notes = DefineTable("notes", {
+  primary_key: "note_message_ts",
   columns: {
-    id: {
+    note_channel_id: {
       type: Schema.types.string,
     },
-    original_string: {
+    note_message_ts: {
       type: Schema.types.string,
     },
-    reversed_string: {
+    note: {
       type: Schema.types.string,
-    },
-    user_id: {
-      type: Schema.slack.types.user_id,
     },
   },
 });

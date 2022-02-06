@@ -8,8 +8,8 @@ export const ParseNoteShortcut = DefineTrigger("parse_note", {
 })
   .runs(ParseNoteWorkflow)
   .withInputs((ctx) => ({
-    channel_id: ctx.data.channel_id,
-    message_id: {
+    note_channel_id: ctx.data.channel_id,
+    note_message_ts: {
       value: "",
       hidden: true,
     },

@@ -1,21 +1,27 @@
-export const PostItem = async (
+export const dispatchItem = async (
   client: any,
   env: any,
-  thread_ts: string,
-  items_channel_id: string,
-  id: string,
+  note_channel_id: string,
+  note_message_ts: string,
   type: string,
   summary: string,
-  assignees: string,
-  references: string,
-  dates: number,
+  who: string,
+  where: string,
+  when: number,
   content: string,
   is_important: boolean,
   is_urgent: boolean,
 ) => {
-  await client.call("chat.postMessage", {
-    thread_ts: thread_ts,
-    channel: items_channel_id,
+  // Determine where to post this item - to the 'where', unless we just
+  // have the 'who' - in which case we want to send a DM
+  let item_channel_id = who;
+  if (where !== null && where.trim().length > 0) {
+    item_channel_id = where;
+  }
+
+  const result = await client.call("chat.postMessage", {
+    /*thread_ts: note_message_ts,*/
+    channel: item_channel_id,
     blocks: [
       {
         "type": "section",
@@ -25,8 +31,7 @@ export const PostItem = async (
         },
         "accessory": {
           "type": "image",
-          "image_url":
-            "https://api.slack.com/img/blocks/bkb_template_images/notifications.png",
+          "image_url": "../assets/task.png",
           "alt_text": "calendar thumbnail",
         },
       },
@@ -38,11 +43,11 @@ export const PostItem = async (
         "fields": [
           {
             "type": "mrkdwn",
-            "text": "*Assignees:*\n" + assignees,
+            "text": "*Who:*\n" + who,
           },
           {
             "type": "mrkdwn",
-            "text": "*Referenced people:*\n" + references,
+            "text": "*Where:*\n" + where,
           },
           {
             "type": "mrkdwn",
@@ -54,7 +59,7 @@ export const PostItem = async (
           },
           {
             "type": "mrkdwn",
-            "text": "*Referenced dates:*\n" + dates,
+            "text": "*When:*\n" + when,
           },
         ],
       },
@@ -72,16 +77,23 @@ export const PostItem = async (
     metadata: {
       event_type: "item_created",
       event_payload: {
-        id: id,
+        note_channel_id: note_channel_id,
+        note_message_ts: note_message_ts,
         type: type,
         summary: summary,
-        assignees: assignees,
-        references: references,
-        dates: dates,
+        who: who,
+        where: where,
+        when: when,
         content: content,
         is_important: is_important,
         is_urgent: is_urgent,
       },
     },
   });
+
+  // Return information about where the item was posted
+  return {
+    item_channel_id: item_channel_id,
+    item_message_ts: result.message.id,
+  };
 };

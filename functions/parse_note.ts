@@ -1,32 +1,23 @@
 import { DefineFunction, Schema } from "slack-cloud-sdk/mod.ts";
-import { PostItem } from "../shared/post_item.ts";
+import { dispatchItems } from "../shared/item_dispatcher.ts";
+import { parseItem } from "../shared/item_parser.ts";
+import { Item } from "../interfaces/item.ts";
 
 export const ParseNoteFunction = DefineFunction(
   "parse_note_function",
   {
-    title: "Parse Note",
+    title: "Turn Note into Actions",
     description: "Takes the provided note and parses it to items of work",
     input_parameters: {
-      required: ["channel_id", "note"],
+      required: ["note_channel_id", "note_message_ts", "note"],
       properties: {
-        channel_id: {
+        note_channel_id: {
           type: Schema.slack.types.channel_id,
-          description: "The channel to post items to",
+          description: "The channel id for the note",
         },
-        message_id: {
+        note_message_ts: {
           type: Schema.types.string,
           description: "The message id for the note",
-        },
-        title: {
-          type: Schema.types.string,
-          description: "The title for the note",
-        },
-        tags: {
-          type: Schema.types.array,
-          items: {
-            type: Schema.slack.types.channel_id,
-          },
-          description: "Channels to tag for this note",
         },
         note: {
           type: Schema.types.string,
@@ -36,64 +27,38 @@ export const ParseNoteFunction = DefineFunction(
     },
   },
   async ({ inputs, client, env }) => {
-    console.log("Parsing note...");
-    let thread_ts: string = (inputs.message_id) ? inputs.message_id : "";
+    const items: Item[] = [];
 
-    if (thread_ts != null && thread_ts.trim().length === 0) {
-      const result = await client.call("chat.postMessage", {
-        channel: inputs.channel_id,
-        text: "Hello note",
-      });
-      thread_ts = String(result.ts);
+    const userItems = inputs.note.match(/<@[A-Z0-9].*/g);
+    console.log(userItems);
+    if (userItems != null && userItems.length > 0) {
+      for (let x = 0; x < userItems.length; x++) {
+        items.push(
+          parseItem(
+            inputs.note_channel_id,
+            inputs.note_message_ts,
+            userItems[x],
+          ),
+        );
+      }
     }
 
-    await PostItem(
-      client,
-      env,
-      thread_ts,
-      inputs.channel_id,
-      "123",
-      "task",
-      "Do Something",
-      "U0304MY4SDV",
-      "U0304MY4SDV",
-      1644029220,
-      "This is the content of my task.",
-      true,
-      false,
-    );
+    const channelItems = inputs.note.match(/<#[A-Z0-9].*/g);
+    console.log(channelItems);
+    if (channelItems != null && channelItems.length > 0) {
+      for (let x = 0; x < channelItems.length; x++) {
+        items.push(
+          parseItem(
+            inputs.note_channel_id,
+            inputs.note_message_ts,
+            channelItems[x],
+          ),
+        );
+      }
+    }
+    console.log(items);
 
-    await PostItem(
-      client,
-      env,
-      thread_ts,
-      inputs.channel_id,
-      "456",
-      "insight",
-      "So Interesting",
-      "",
-      "U0304MY4SDV",
-      1644029220,
-      "This is the content of my insight.",
-      false,
-      false,
-    );
-
-    await PostItem(
-      client,
-      env,
-      thread_ts,
-      inputs.channel_id,
-      "789",
-      "decision",
-      "Make it happen",
-      "U0304MY4SDV",
-      "U0304MY4SDV",
-      1644029220,
-      "This is the content of my decision.",
-      false,
-      false,
-    );
+    await dispatchItems(client, env, items);
 
     return await {
       outputs: {},

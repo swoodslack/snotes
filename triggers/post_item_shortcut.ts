@@ -8,8 +8,8 @@ export const PostItemShortcut = DefineTrigger("post_item", {
 })
   .runs(PostItemWorkflow)
   .withInputs((ctx) => ({
-    items_channel_id: ctx.data.channel_id,
-    id: {
+    note_channel_id: ctx.data.channel_id,
+    note_message_ts: {
       value: "",
       hidden: true,
     },
