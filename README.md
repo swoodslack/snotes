@@ -1,15 +1,22 @@
-# Next-gen Slack platform project template - Reverse String
-This repo contains a sample project and embedded lightweight SDK of a Typescript based project for the new Deno runtime. 
+# Snotes
+A partly useful notes application written for Slack. The idea is to turn notes into follow-up actions so tasks/decisions/insights written in Slack are easier to track and action as a team.
 
-The main file that brings it all together is the `project.ts` file.  So far `functions`, `workflows`, `triggers` and `tables` are supported and those should each be created in a file per, under each corresponding directory. `functions/reverse.ts` has a simple sample. After you create a new function or workflow make sure you add it to the `Project` object in `project.ts`. 
+Write this in a Slack message:
+Actions from today's meeting:
+- @wood You need to do lots of things
+- #hermes-decisions We decided it's time to release the product today
+- #hermes-team We need to figure out all the things about all the stuff
 
-## Setup
+Use the 'Turn Note into Actions' message action on that message... and get this...
 
-Create a new project using this as repo as a template.
+A task for @wood in thread:
+![Wood Task](https://github.com/swoodslack/snotes/assets/master/screenshot_wood.png?raw=true)
 
-```bash
-slack create -t slackapi/deno-reverse-string
-```
+A task in #hermes-decisions:
+![Hermes Decisions Task](https://github.com/swoodslack/snotes/assets/master/screenshot_decisions.png?raw=true)
+
+And a task in #hermes-team:
+![Hermes Decisions Task](https://github.com/swoodslack/snotes/assets/master/screenshot_team.png?raw=true)
 
 ## Running it locally
 
@@ -22,12 +29,3 @@ slack run
 ```bash
 slack deploy
 ```
-
-## Testing
-
-You can write tests for your function, see `functions/reverse_test.ts` for a sample. Test base filenames should be suffixed with `_test`. To run tests just run:
-
-```bash
-slack deno test
-```
-
