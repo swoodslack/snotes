@@ -1,7 +1,8 @@
 # Snotes
 A partly useful notes application written for Slack. The idea is to turn notes into follow-up actions so tasks/decisions/insights written in Slack are easier to track and action as a team.
 
-Write this in a Slack message:
+Write this in a Slack message...
+
 Actions from today's meeting:
 - @wood You need to do lots of things
 - #hermes-decisions We decided it's time to release the product today
