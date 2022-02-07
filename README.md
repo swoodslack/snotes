@@ -10,13 +10,13 @@ Actions from today's meeting:
 Use the 'Turn Note into Actions' message action on that message... and get this...
 
 A task for @wood in thread:
-![Wood Task](https://github.com/swoodslack/snotes/assets/master/screenshot_wood.png?raw=true)
+![Wood Task](https://raw.githubusercontent.com/swoodslack/snotes/master/assets/screenshot_wood.png)
 
 A task in #hermes-decisions:
-![Hermes Decisions Task](https://github.com/swoodslack/snotes/assets/master/screenshot_decisions.png?raw=true)
+![Hermes Decisions Task](https://raw.githubusercontent.com/swoodslack/snotes/master/assets/screenshot_decisions.png)
 
 And a task in #hermes-team:
-![Hermes Decisions Task](https://github.com/swoodslack/snotes/assets/master/screenshot_team.png?raw=true)
+![Hermes Decisions Task](https://raw.githubusercontent.com/swoodslack/snotes/master/assets/screenshot_team.png)
 
 ## Running it locally
 
