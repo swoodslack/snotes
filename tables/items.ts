@@ -28,16 +28,10 @@ export const Items = DefineTable("items", {
       type: Schema.slack.types.channel_id,
     },
     when: {
-      type: Schema.slack.types.timestamp,
+      type: Schema.types.number,
     },
     content: {
       type: Schema.types.string,
-    },
-    is_urgent: {
-      type: Schema.types.boolean,
-    },
-    is_important: {
-      type: Schema.types.boolean,
     },
   },
 });

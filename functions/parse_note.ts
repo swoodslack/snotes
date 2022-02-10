@@ -29,8 +29,13 @@ export const ParseNoteFunction = DefineFunction(
   async ({ inputs, client, env }) => {
     const items: Item[] = [];
 
+    //console.log(inputs.note);
+    console.log(inputs);
+    console.log(client);
+    console.log(env);
+
     const userItems = inputs.note.match(/<@[A-Z0-9].*/g);
-    console.log(userItems);
+    //console.log(userItems);
     if (userItems != null && userItems.length > 0) {
       for (let x = 0; x < userItems.length; x++) {
         items.push(
@@ -44,7 +49,7 @@ export const ParseNoteFunction = DefineFunction(
     }
 
     const channelItems = inputs.note.match(/<#[A-Z0-9].*/g);
-    console.log(channelItems);
+    //console.log(channelItems);
     if (channelItems != null && channelItems.length > 0) {
       for (let x = 0; x < channelItems.length; x++) {
         items.push(
@@ -56,7 +61,7 @@ export const ParseNoteFunction = DefineFunction(
         );
       }
     }
-    console.log(items);
+    //console.log(items);
 
     await dispatchItems(client, env, items);
 

@@ -9,8 +9,6 @@ export interface Item {
   who?: string;
   where?: string;
   when?: number;
-  isImportant: boolean;
-  isUrgent: boolean;
 }
 
 export interface Reference {

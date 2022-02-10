@@ -47,8 +47,8 @@ export const parseItem = (
     who: whoReference.reference,
     where: whereReference.reference,
     when: when,
-    isImportant: isImportant,
-    isUrgent: isUrgent,
+    /*isImportant: isImportant,
+    isUrgent: isUrgent,*/
   };
 };
 

@@ -1,7 +1,7 @@
 import { DefineTrigger, TriggerTypes } from "slack-cloud-sdk/mod.ts";
 import { ParseNoteWorkflow } from "../workflows/parse_note.ts";
 
-export const ParseNoteShortcut = DefineTrigger("parse_note", {
+export const ParseNoteShortcut = DefineTrigger("parse_note_shortcut", {
   type: TriggerTypes.Shortcut,
   name: "Parse Note",
   description: "Takes the provided note and parses it to items of work",
