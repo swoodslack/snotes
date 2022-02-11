@@ -5,7 +5,6 @@ export interface Item {
   item_message_ts?: string;
   type: string;
   summary: string;
-  content?: string;
   who?: string;
   where?: string;
   when?: number;

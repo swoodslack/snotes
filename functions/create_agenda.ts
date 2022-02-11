@@ -1,5 +1,7 @@
 import { DefineFunction, Schema } from "slack-cloud-sdk/mod.ts";
-import { getItems } from "../shared/item_manager.ts";
+import { getItemsForChannel } from "../shared/storage.ts";
+import { sendAgenda } from "../shared/messenger.ts";
+import { Item } from "../interfaces/item.ts";
 
 export const CreateAgendaFunction = DefineFunction(
   "create_agenda_function",
@@ -17,7 +19,15 @@ export const CreateAgendaFunction = DefineFunction(
     },
   },
   async ({ inputs, client, env }) => {
-    await getItems(client, inputs.items_channel_id);
+    // Get the items for the channel
+    const items: Item[] = await getItemsForChannel(
+      client,
+      inputs.items_channel_id,
+      "type",
+    );
+
+    // Post the agenda for those items
+    await sendAgenda(client, inputs.items_channel_id, items);
 
     return await {
       outputs: {},

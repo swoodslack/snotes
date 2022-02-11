@@ -13,5 +13,6 @@ export const ParseNoteMessageShortcut = DefineTrigger(
   .withInputs((ctx) => ({
     note_channel_id: ctx.data.channel_id,
     note_message_ts: ctx.data.message.ts,
+    note_user_id: ctx.data.user_id,
     note: ctx.data.message.text,
   }));

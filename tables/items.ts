@@ -30,8 +30,5 @@ export const Items = DefineTable("items", {
     when: {
       type: Schema.types.number,
     },
-    content: {
-      type: Schema.types.string,
-    },
   },
 });

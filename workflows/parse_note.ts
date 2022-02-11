@@ -17,6 +17,10 @@ export const ParseNoteWorkflow = DefineWorkflow(
           type: Schema.types.string,
           description: "The message id for the note",
         },
+        note_user_id: {
+          type: Schema.slack.types.user_id,
+          description: "The user running this workflow",
+        },
         note: {
           type: Schema.types.string,
           description: "The note to parse",
@@ -29,5 +33,6 @@ export const ParseNoteWorkflow = DefineWorkflow(
 ParseNoteWorkflow.addStep(ParseNoteFunction, {
   note_channel_id: ParseNoteWorkflow.inputs.note_channel_id,
   note_message_ts: ParseNoteWorkflow.inputs.note_message_ts,
+  note_user_id: ParseNoteWorkflow.inputs.note_user_id,
   note: ParseNoteWorkflow.inputs.note,
 });

@@ -1,14 +1,51 @@
 import { Item, Reference } from "../interfaces/item.ts";
 import { datetime } from "https://deno.land/x/ptera/mod.ts";
 
+export const parseNote = (
+  note: string,
+  noteChannelId: string,
+  noteMessageTs: string,
+) => {
+  //console.log(note);
+  const items: Item[] = [];
+
+  const userItems = note.match(/<@[A-Z0-9].*/g);
+  //console.log(userItems);
+  if (userItems != null && userItems.length > 0) {
+    for (let x = 0; x < userItems.length; x++) {
+      items.push(
+        parseItem(
+          noteChannelId,
+          noteMessageTs,
+          userItems[x],
+        ),
+      );
+    }
+  }
+
+  const channelItems = note.match(/<#[A-Z0-9].*/g);
+  //console.log(channelItems);
+  if (channelItems != null && channelItems.length > 0) {
+    for (let x = 0; x < channelItems.length; x++) {
+      items.push(
+        parseItem(
+          noteChannelId,
+          noteMessageTs,
+          channelItems[x],
+        ),
+      );
+    }
+  }
+  //console.log(items);
+  return items;
+};
+
 export const parseItem = (
   note_channel_id: string,
   note_message_ts: string,
   item: string,
 ): Item => {
   let when = 0;
-  let isUrgent = false;
-  let isImportant = false;
 
   // Get the who and where if we have them
   // These are chained together as the method changes the item content
@@ -26,19 +63,6 @@ export const parseItem = (
     }
   }
 
-  // Check for urgency
-  if (checkItem.indexOf("urgent") > 0 || checkItem.indexOf("urgency") > 0) {
-    isUrgent = true;
-  }
-
-  // Check for importance
-  if (
-    checkItem.indexOf("important") > 0 ||
-    checkItem.indexOf("importance") > 0
-  ) {
-    isImportant = true;
-  }
-
   return {
     note_channel_id: note_channel_id,
     note_message_ts: note_message_ts,
@@ -47,8 +71,6 @@ export const parseItem = (
     who: whoReference.reference,
     where: whereReference.reference,
     when: when,
-    /*isImportant: isImportant,
-    isUrgent: isUrgent,*/
   };
 };
 

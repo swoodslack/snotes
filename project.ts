@@ -25,5 +25,5 @@ Project({
   workflows: [ParseNoteWorkflow, CreateAgendaWorkflow],
   triggers: [ParseNoteShortcut, ParseNoteMessageShortcut, CreateAgendaShortcut],
   tables: [Items, Notes],
-  outgoingDomains: ["api.ipify.org"],
+  outgoingDomains: [],
 });

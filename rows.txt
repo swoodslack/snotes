@@ -1,0 +1,82 @@
+{
+  "item_channel_id": "C031VEA1KNY",
+  "item_message_ts": "1644557899.853139",
+  "note_channel_id": "C030MKRPW76",
+  "note_message_ts": "1644037586.464619",
+  "summary": "\u003c#C031VEA1KNY|hermes-decisions\u003e We decided it's time to release the product today",
+  "type": "task",
+  "when": 0,
+  "where": "C031VEA1KNY"
+}
+{
+  "item_channel_id": "C0325PPURGR",
+  "item_message_ts": "1644558037.754339",
+  "note_channel_id": "C030MKRPW76",
+  "note_message_ts": "1644037586.464619",
+  "summary": "\u003c#C0325PPURGR|hermes-team\u003e We need to figure out all the things about all the stuff",
+  "type": "task",
+  "when": 0,
+  "where": "C0325PPURGR"
+}
+{
+  "item_channel_id": "C0325PPURGR",
+  "item_message_ts": "1644557900.062599",
+  "note_channel_id": "C030MKRPW76",
+  "note_message_ts": "1644037586.464619",
+  "summary": "\u003c#C0325PPURGR|hermes-team\u003e We need to figure out all the things about all the stuff",
+  "type": "task",
+  "when": 0,
+  "where": "C0325PPURGR"
+}
+{
+  "item_channel_id": "C031VEA1KNY",
+  "item_message_ts": "1644557900.288949",
+  "note_channel_id": "C030MKRPW76",
+  "note_message_ts": "1644037586.464619",
+  "summary": "\u003c#C031VEA1KNY|hermes-decisions\u003e was improved to include non-hermes specific decisions.",
+  "type": "task",
+  "when": 0,
+  "where": "C031VEA1KNY"
+}
+{
+  "item_channel_id": "C030MKRPW76",
+  "item_message_ts": "1644557899.631359",
+  "note_channel_id": "C030MKRPW76",
+  "note_message_ts": "1644037586.464619",
+  "summary": "\u003c@U0304MY4SDV\u003e You need to do lots of things",
+  "type": "task",
+  "when": 0,
+  "who": "U0304MY4SDV"
+}
+{
+  "item_channel_id": "C031VEA1KNY",
+  "item_message_ts": "1644558037.960709",
+  "note_channel_id": "C030MKRPW76",
+  "note_message_ts": "1644037586.464619",
+  "summary": "\u003c#C031VEA1KNY|hermes-decisions\u003e was improved to include non-hermes specific decisions.",
+  "type": "task",
+  "when": 0,
+  "where": "C031VEA1KNY"
+}
+{
+  "item_channel_id": "C031VEA1KNY",
+  "item_message_ts": "1644558037.542839",
+  "note_channel_id": "C030MKRPW76",
+  "note_message_ts": "1644037586.464619",
+  "summary": "\u003c#C031VEA1KNY|hermes-decisions\u003e We decided it's time to release the product today",
+  "type": "task",
+  "when": 0,
+  "where": "C031VEA1KNY"
+}
+{
+  "item_channel_id": "C030MKRPW76",
+  "item_message_ts": "1644558037.289919",
+  "note_channel_id": "C030MKRPW76",
+  "note_message_ts": "1644037586.464619",
+  "summary": "\u003c@U0304MY4SDV\u003e You need to do lots of things",
+  "type": "task",
+  "when": 0,
+  "who": "U0304MY4SDV"
+}
+
+slack tables delete '{"table": "items", "app": "A031516MSDP", "id": "1644542260.650009"}'
