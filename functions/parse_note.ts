@@ -1,6 +1,7 @@
 import { DefineFunction, Schema } from "slack-cloud-sdk/mod.ts";
 import { clearSentItems, sendItems } from "../shared/messenger.ts";
 import { deleteItemsForNote, saveItemsForNote } from "../shared/storage.ts";
+import { getLinkToMessage } from "../shared/utils.ts";
 import { parseNote } from "../shared/parser.ts";
 import { Item } from "../interfaces/item.ts";
 
@@ -32,6 +33,13 @@ export const ParseNoteFunction = DefineFunction(
     },
   },
   async ({ inputs, client, env }) => {
+    // Get the permalink to the message with the note
+    const noteMessageLink: string = await getLinkToMessage(
+      client,
+      inputs.note_channel_id,
+      inputs.note_message_ts,
+    );
+
     // Delete any prior rows and messages for this note
     const deletedItems: Item[] = await deleteItemsForNote(
       client,
@@ -47,7 +55,7 @@ export const ParseNoteFunction = DefineFunction(
     );
 
     // Send the items from the note
-    await sendItems(client, items, inputs.note_user_id);
+    await sendItems(client, items, inputs.note_user_id, noteMessageLink);
 
     // Store the items so we have them for queries
     await saveItemsForNote(

@@ -20,7 +20,7 @@ export const createAgendaBlocks = (items: Item[]) => {
   if (items != null && items.length > 0) {
     for (let x = 0; x < items.length; x++) {
       blocks = blocks.concat(
-        createBlocksForItem(items[x], "", false, true, false, false),
+        createBlocksForItem(items[x], "", false, true, false, false, ""),
       );
     }
   }
@@ -45,6 +45,7 @@ export const createBlocksForItem = (
   addWho: boolean,
   addWhere: boolean,
   addFooter: boolean,
+  noteMessageLink: string,
 ) => {
   // Construct the message blocks
   const blocks = [];
@@ -122,7 +123,7 @@ export const createBlocksForItem = (
         {
           "type": "mrkdwn",
           "text":
-            `This item was created by <@${noteUserId}> from a note in <#${item.note_channel_id}>`,
+            `Use :eyes: when 'in progress' and :white_check_mark: when 'completed'.\nThis item was created by <@${noteUserId}> from a note in <#${item.note_channel_id}>.\nThe original message is <${noteMessageLink}|here>.`,
         },
       ],
     });

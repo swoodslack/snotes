@@ -65,12 +65,15 @@ export const sendItems = async (
   client: any,
   items: Item[],
   noteUserId: string,
+  noteMessageLink: string,
 ): Promise<Item[]> => {
   const messagedItems: Item[] = [];
   if (items != null && items.length > 0) {
     for (let x = 0; x < items.length; x++) {
       //console.log(`Dispatching item: ${JSON.stringify(items[x])}`);
-      messagedItems.push(await sendItem(client, items[x], noteUserId));
+      messagedItems.push(
+        await sendItem(client, items[x], noteUserId, noteMessageLink),
+      );
     }
   }
   return messagedItems;
@@ -85,6 +88,7 @@ const sendItem = async (
   client: any,
   item: Item,
   noteUserId: string,
+  noteMessageLink: string,
 ): Promise<Item> => {
   // If the channel to post is the same as the note, put the items in thread
   const channel: string = determineMessageChannel(item);
@@ -105,6 +109,7 @@ const sendItem = async (
       true,
       false,
       true,
+      noteMessageLink,
     ),
     metadata: {
       event_type: "snotes_item:created",
