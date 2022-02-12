@@ -1,6 +1,10 @@
 import { DefineFunction, Schema } from "slack-cloud-sdk/mod.ts";
-import { getItemsForChannel } from "../shared/storage.ts";
+import { deleteItems, getItemsForChannel } from "../shared/storage.ts";
 import { sendAgenda } from "../shared/messenger.ts";
+import {
+  REACTJI_DONE,
+  REACTJI_NOT_DOING,
+} from "../shared/block_kit_builder.ts";
 import { Item } from "../interfaces/item.ts";
 
 export const CreateAgendaFunction = DefineFunction(
@@ -25,6 +29,19 @@ export const CreateAgendaFunction = DefineFunction(
       inputs.items_channel_id,
       "type",
     );
+
+    // Find the items that are done and not doing - we only want to show
+    // those once and then delete them from the data store.
+    if (items != null) {
+      let oneTimeItems: Item[] = [];
+      oneTimeItems = oneTimeItems.concat(
+        items.filter((item) => item.status === REACTJI_NOT_DOING),
+      );
+      oneTimeItems = oneTimeItems.concat(
+        items.filter((item) => item.status === REACTJI_DONE),
+      );
+      await deleteItems(client, oneTimeItems);
+    }
 
     // Post the agenda for those items
     await sendAgenda(client, inputs.items_channel_id, items);

@@ -1,6 +1,21 @@
 import { Items } from "../tables/items.ts";
 import { Item, ItemRow } from "../interfaces/item.ts";
 
+export const deleteItems = async (
+  client: any,
+  items: Item[],
+) => {
+  if (items != null && items.length > 0) {
+    for (let x = 0; x < items.length; x++) {
+      const deleteResponse = await client.call("apps.hosted.tables.deleteRow", {
+        table: "items",
+        id: items[x].item_message_ts,
+      });
+      //console.log(deleteResponse);
+    }
+  }
+};
+
 export const updateItemStatus = async (
   client: any,
   item_message_ts: string,

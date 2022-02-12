@@ -9,8 +9,8 @@ export const createAgendaBlocks = (items: Item[]) => {
   const progressItems = items.filter((item) =>
     item.status === REACTJI_IN_PROGRESS
   );
-  //const notItems = items.filter((item) => item.status === REACTJI_NOT_DOING);
-  //const doneItems = items.filter((item) => item.status === REACTJI_DONE);
+  const notItems = items.filter((item) => item.status === REACTJI_NOT_DOING);
+  const doneItems = items.filter((item) => item.status === REACTJI_DONE);
 
   // Add the agenda header
   blocks.push({
@@ -38,8 +38,13 @@ export const createAgendaBlocks = (items: Item[]) => {
     REACTJI_IN_PROGRESS,
     blocks,
   );
-  //blocks = createAgendaSection(doneItems, "Done Items", blocks);
-  //blocks = createAgendaSection(notItems, "Not Doing Items", blocks);
+  blocks = createAgendaSection(doneItems, "Done Items", REACTJI_DONE, blocks);
+  blocks = createAgendaSection(
+    notItems,
+    "Not Doing Items",
+    REACTJI_NOT_DOING,
+    blocks,
+  );
 
   blocks.push({
     "type": "divider",
@@ -124,7 +129,11 @@ export const createBlocksForItem = (
       "elements": [
         {
           "type": "mrkdwn",
-          "text": `Update the item <${item.permalink}|here> with any changes.`,
+          "text": `${
+            (item.status === REACTJI_DONE || item.status === REACTJI_NOT_DOING)
+              ? "Item is removed from future agendas. "
+              : ""
+          }Update the item <${item.permalink}|here> with any changes.`,
         },
       ],
     });
