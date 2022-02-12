@@ -11,3 +11,18 @@ export const getLinkToMessage = async (
   //console.log(result);
   return result.permalink;
 };
+
+export const callWebhook = async (
+  webhookUrl: string,
+  body: any,
+) => {
+  console.log(`Calling webhook: ${webhookUrl}`);
+  const response = await fetch(
+    webhookUrl,
+    {
+      method: "POST",
+      body: JSON.stringify(body),
+    },
+  );
+  console.log(response);
+};

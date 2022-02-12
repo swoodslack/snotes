@@ -6,6 +6,7 @@ import {
 } from "../shared/block_kit_builder.ts";
 import { updateItemStatus } from "../shared/storage.ts";
 import { getMessage } from "../shared/messenger.ts";
+import { callWebhook } from "../shared/utils.ts";
 
 export const UpdateItemFunction = DefineFunction(
   "update_item_function",
