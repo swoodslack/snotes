@@ -1,9 +1,11 @@
 import { DefineFunction, Schema } from "slack-cloud-sdk/mod.ts";
-import { clearSentItems, sendItems } from "../shared/messenger.ts";
-import { deleteItemsForNote, saveItemsForNote } from "../shared/storage.ts";
-import { getLinkToMessage } from "../shared/utils.ts";
-import { parseNote } from "../shared/parser.ts";
-import { Item } from "../interfaces/item.ts";
+import {
+  REACTJI_DONE,
+  REACTJI_IN_PROGRESS,
+  REACTJI_NOT_DOING,
+} from "../shared/block_kit_builder.ts";
+import { updateItemStatus } from "../shared/storage.ts";
+import { getMessage } from "../shared/messenger.ts";
 
 export const UpdateItemFunction = DefineFunction(
   "update_item_function",
@@ -39,6 +41,21 @@ export const UpdateItemFunction = DefineFunction(
   },
   async ({ inputs, client, env }) => {
     console.log(inputs.reaction);
+
+    // Get the message so we have the full context of this reaction event
+    const message = await getMessage(
+      client,
+      inputs.item_channel_id,
+      inputs.item_message_ts,
+    );
+
+    if (
+      inputs.reaction === REACTJI_DONE ||
+      inputs.reaction === REACTJI_IN_PROGRESS ||
+      inputs.reaction === REACTJI_NOT_DOING
+    ) {
+      await updateItemStatus(client, inputs.item_message_ts, inputs.reaction);
+    }
 
     return await {
       outputs: {},

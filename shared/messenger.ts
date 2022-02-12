@@ -1,12 +1,39 @@
 import { Item } from "../interfaces/item.ts";
+import { getLinkToMessage } from "./utils.ts";
 import {
   createAgendaBlocks,
   createBlocksForItem,
 } from "./block_kit_builder.ts";
 
 /**
+ * Handles getting an individual message based on channel and message ts.
+ * @param client The client to use to send get the message
+ * @param channel_id The channel to get the message from
+ * @param message_ts The ts for the message being retrieved
+ */
+export const getMessage = async (
+  client: any,
+  channel_id: string,
+  message_ts: string,
+) => {
+  console.log(`Getting message for: ${channel_id} / ${message_ts}`);
+  const result = await client.call("conversations.history", {
+    channel: channel_id,
+    oldest: message_ts,
+    inclusive: true,
+    limit: 1,
+  });
+  console.log(result);
+
+  if (result.messages != null && result.messages.length > 0) {
+    return result.messages[0];
+  }
+  return null;
+};
+
+/**
  * Handles the message send for agenda requests for a specific channel.
- * @param client The client ot use to send the agenda message
+ * @param client The client to use to send the agenda message
  * @param itemsChannelId The channel to send the agenda message
  * @param items The list of items to include in the agenda message
  */
@@ -17,6 +44,8 @@ export const sendAgenda = async (
 ) => {
   if (items != null && items.length > 0) {
     const result = await client.call("chat.postMessage", {
+      unfurl_links: false,
+      unfurl_media: false,
       channel: itemsChannelId,
       blocks: createAgendaBlocks(items),
       /*metadata: {
@@ -24,7 +53,7 @@ export const sendAgenda = async (
         event_payload: items,
       },*/
     });
-    console.log(result);
+    //console.log(result);
   }
 };
 
@@ -40,16 +69,16 @@ export const clearSentItems = async (
   if (items != null && items.length > 0) {
     for (let x = 0; x < items.length; x++) {
       // Delete the message from Slack
-      console.log(
+      /*console.log(
         `Deleting message for: ${items[x].item_channel_id} / ${
           items[x].item_message_ts
         }`,
-      );
+      );*/
       const result = await client.call("chat.delete", {
         channel: items[x].item_channel_id,
         ts: items[x].item_message_ts,
       });
-      console.log(result);
+      //console.log(result);
     }
   }
 };
@@ -71,6 +100,7 @@ export const sendItems = async (
   if (items != null && items.length > 0) {
     for (let x = 0; x < items.length; x++) {
       //console.log(`Dispatching item: ${JSON.stringify(items[x])}`);
+      // Send the message
       messagedItems.push(
         await sendItem(client, items[x], noteUserId, noteMessageLink),
       );
@@ -101,6 +131,8 @@ const sendItem = async (
   //console.log(`Posting item message: ${JSON.stringify(item)}`);
   const result = await client.call("chat.postMessage", {
     thread_ts: thread_ts,
+    unfurl_links: false,
+    unfurl_media: false,
     channel: determineMessageChannel(item),
     blocks: createBlocksForItem(
       item,
@@ -109,6 +141,7 @@ const sendItem = async (
       true,
       false,
       true,
+      false,
       noteMessageLink,
     ),
     metadata: {
@@ -121,6 +154,7 @@ const sendItem = async (
   // Assign the fields needed for storage
   item.item_channel_id = result.channel;
   item.item_message_ts = result.ts;
+  item.permalink = await getLinkToMessage(client, result.channel, result.ts);
 
   return item;
 };

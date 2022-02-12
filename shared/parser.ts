@@ -82,7 +82,7 @@ function getStartingReference(
 
   // Trim the item to make sure we're processing correctly
   item = item.trim();
-  console.log(`Checking item for reference (symbol: ${symbol}): ${item}`);
+  //console.log(`Checking item for reference (symbol: ${symbol}): ${item}`);
 
   // Check to see if there's a reference at the beginning
   if (item.startsWith(`<${symbol}`)) {
@@ -99,7 +99,7 @@ function getStartingReference(
         reference.reference.indexOf("|"),
       );
     }
-    console.log(`Reference found for ${symbol}: ${reference}`);
+    //console.log(`Reference found for ${symbol}: ${reference}`);
   }
 
   return reference;

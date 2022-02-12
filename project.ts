@@ -7,7 +7,9 @@ import { ParseNoteWorkflow } from "./workflows/parse_note.ts";
 import { UpdateItemWorkflow } from "./workflows/update_item.ts";
 import { CreateAgendaShortcut } from "./triggers/create_agenda_shortcut.ts";
 import { ParseNoteMessageShortcut } from "./triggers/parse_note_message_shortcut.ts";
-//import { UpdateItemEventReactji } from "./triggers/update_item_event_reactji.ts";
+import { UpdateItemEventReactji1 } from "./triggers/update_item_event_reactji_1.ts";
+import { UpdateItemEventReactji2 } from "./triggers/update_item_event_reactji_2.ts";
+import { UpdateItemEventReactji3 } from "./triggers/update_item_event_reactji_3.ts";
 import { Items } from "./tables/items.ts";
 import { Notes } from "./tables/notes.ts";
 
@@ -22,13 +24,26 @@ Project({
     "chat:write.public",
     "tables:read",
     "tables:write",
+    "channels:read",
+    "channels:history",
+    "groups:read",
+    "groups:write",
+    "groups:history",
+    "mpim:read",
+    "mpim:write",
+    "mpim:history",
+    "im:read",
+    "im:write",
+    "im:history",
   ],
   functions: [ParseNoteFunction, CreateAgendaFunction, UpdateItemFunction],
   workflows: [ParseNoteWorkflow, CreateAgendaWorkflow, UpdateItemWorkflow],
   triggers: [
     ParseNoteMessageShortcut,
     CreateAgendaShortcut,
-    /*UpdateItemEventReactji,*/
+    UpdateItemEventReactji1,
+    UpdateItemEventReactji2,
+    UpdateItemEventReactji3,
   ],
   tables: [Items, Notes],
   outgoingDomains: [],
