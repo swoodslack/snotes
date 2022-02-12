@@ -153,7 +153,7 @@ export const createBlocksForItem = (
 export const REACTJI_UNASSIGNED = "broken_heart";
 export const REACTJI_IN_PROGRESS = "eyes";
 export const REACTJI_DONE = "white_check_mark";
-export const REACTJI_NOT_DOING = "thumbsdown";
+export const REACTJI_NOT_DOING = "no_good";
 
 const createAgendaSection = (
   items: Item[],
