@@ -26,3 +26,16 @@ export const callWebhook = async (
   );
   console.log(response);
 };
+
+export const callGoogleCalendar = async (
+  apiKey: string,
+  calendarId: string,
+) => {
+  let timeMax = "2022-02-13T00:00:00-00:00";
+  let timeMin = "2022-02-15T00:00:00-00:00";
+  console.log(`Calling Google Calendar API for: ${calendarId}`);
+  const response = await fetch(
+    `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events/?key=${apiKey}&timeMax=${timeMax}&timeMin=${timeMin}`,
+  );
+  console.log(response);
+};

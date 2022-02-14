@@ -1,6 +1,80 @@
 import { Item } from "../interfaces/item.ts";
 import { datetime } from "https://deno.land/x/ptera/mod.ts";
 
+export const createReviewBlocks = (
+  items: Item[],
+  summary: string,
+  eventLink: string,
+) => {
+  let blocks: any = [];
+
+  // Filter out the items by status
+  const unassignedItems = items.filter((item) => (!item.status));
+  const progressItems = items.filter((item) =>
+    item.status === REACTJI_IN_PROGRESS
+  );
+  const notItems = items.filter((item) => item.status === REACTJI_NOT_DOING);
+  const doneItems = items.filter((item) => item.status === REACTJI_DONE);
+
+  // Add the agenda header
+  blocks.push({
+    "type": "header",
+    "text": {
+      "type": "plain_text",
+      "text": summary,
+      "emoji": true,
+    },
+  });
+  blocks.push({
+    "type": "section",
+    "text": {
+      "type": "mrkdwn",
+      "text": `Date: ${datetime().format("MMMM dd, YYYY")}`,
+    },
+  });
+  blocks.push({
+    "type": "divider",
+  });
+
+  // Create the sections for each item status
+  blocks = createAgendaSection(
+    unassignedItems,
+    "Unassigned Items",
+    REACTJI_UNASSIGNED,
+    blocks,
+  );
+  blocks = createAgendaSection(
+    progressItems,
+    "In Progress Items",
+    REACTJI_IN_PROGRESS,
+    blocks,
+  );
+  blocks = createAgendaSection(doneItems, "Done Items", REACTJI_DONE, blocks);
+  blocks = createAgendaSection(
+    notItems,
+    "Not Doing Items",
+    REACTJI_NOT_DOING,
+    blocks,
+  );
+
+  blocks.push({
+    "type": "divider",
+  });
+
+  blocks.push({
+    "type": "context",
+    "elements": [
+      {
+        "type": "mrkdwn",
+        "text": `The event is here <${eventLink}|here>.`,
+      },
+    ],
+  });
+
+  console.log(blocks);
+  return blocks;
+};
+
 export const createAgendaBlocks = (items: Item[]) => {
   let blocks: any = [];
 
@@ -133,7 +207,7 @@ export const createBlocksForItem = (
             (item.status === REACTJI_DONE || item.status === REACTJI_NOT_DOING)
               ? "Item is removed from future agendas. "
               : ""
-          }Update the item <${item.permalink}|here> with any changes.`,
+          }Update the item <${item.permalink}|here> with any changes (command-click to open in right panel).`,
         },
       ],
     });
@@ -149,7 +223,7 @@ export const createBlocksForItem = (
         {
           "type": "mrkdwn",
           "text":
-            `:${REACTJI_IN_PROGRESS}: = 'in progress', :${REACTJI_DONE}: = 'done', :${REACTJI_NOT_DOING}: = 'not doing'.\nThis item was created by <@${noteUserId}> from a note in <#${item.note_channel_id}>.\nThe original message is <${noteMessageLink}|here>.`,
+            `:${REACTJI_IN_PROGRESS}: = 'in progress', :${REACTJI_DONE}: = 'done', :${REACTJI_NOT_DOING}: = 'not doing'.\nThis item was created by <@${noteUserId}> from a note in <#${item.note_channel_id}>.\nThe original message is <${noteMessageLink}|here> (command-click to open in right panel).`,
         },
       ],
     });
@@ -181,7 +255,7 @@ const createAgendaSection = (
 
     for (let x = 0; x < items.length; x++) {
       blocks = blocks.concat(
-        createBlocksForItem(items[x], "", false, true, false, false, true, ""),
+        createBlocksForItem(items[x], "", false, false, false, false, true, ""),
       );
     }
   }

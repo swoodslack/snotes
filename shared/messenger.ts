@@ -3,6 +3,7 @@ import { getLinkToMessage } from "./utils.ts";
 import {
   createAgendaBlocks,
   createBlocksForItem,
+  createReviewBlocks,
 } from "./block_kit_builder.ts";
 
 /**
@@ -29,6 +30,34 @@ export const getMessage = async (
     return result.messages[0];
   }
   return null;
+};
+
+/**
+ * Handles the message send for agenda requests for a specific channel.
+ * @param client The client to use to send the agenda message
+ * @param itemsChannelId The channel to send the agenda message
+ * @param items The list of items to include in the agenda message
+ */
+export const sendReview = async (
+  client: any,
+  itemsChannelId: string,
+  items: Item[],
+  summary: string,
+  eventLink: string,
+) => {
+  if (items != null && items.length > 0) {
+    const result = await client.call("chat.postMessage", {
+      unfurl_links: false,
+      unfurl_media: false,
+      channel: itemsChannelId,
+      blocks: createReviewBlocks(items, summary, eventLink),
+      /*metadata: {
+        event_type: "snotes_items:agenda",
+        event_payload: items,
+      },*/
+    });
+    //console.log(result);
+  }
 };
 
 /**

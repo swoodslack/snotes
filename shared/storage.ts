@@ -66,6 +66,23 @@ export const getItemsForChannel = async (
   return convertItemRowsToItems(response.rows);
 };
 
+export const getItemsForUser = async (
+  client: any,
+  itemsUserId: string,
+  type: string,
+): Promise<Item[]> => {
+  const itemsStorage = Items.api(client);
+  console.log(`Getting items for: ${itemsUserId}`);
+  const response = await itemsStorage.query({
+    expression: "#who = :user_id",
+    expression_columns: { "#who": "who" },
+    expression_values: { ":user_id": itemsUserId },
+  });
+  console.log(response);
+
+  return convertItemRowsToItems(response.rows);
+};
+
 export const saveItemsForNote = async (
   client: any,
   items: Item[],

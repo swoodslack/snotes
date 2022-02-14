@@ -16,6 +16,10 @@ import { YoFunction } from "./functions/yo.ts";
 import { YoWorkflow } from "./workflows/yo.ts";
 import { YoShortcut } from "./triggers/yo_shortcut.ts";
 
+import { CalendarEventFunction } from "./functions/calendar_event.ts";
+import { CalendarEventWorkflow } from "./workflows/calendar_event.ts";
+import { CalendarEventWebhook } from "./triggers/calendar_event_webhook.ts";
+
 import { UpdateItemFunction } from "./functions/update_item.ts";
 import { UpdateItemWorkflow } from "./workflows/update_item.ts";
 import { UpdateItemEventReactji1 } from "./triggers/update_item_event_reactji_1.ts";
@@ -32,6 +36,8 @@ Project({
   runtime: "deno1.x",
   botScopes: [
     "commands",
+    "users:read",
+    "users:read.email",
     "chat:write",
     "chat:write.public",
     "tables:read",
@@ -54,6 +60,7 @@ Project({
     UpdateItemFunction,
     YoSupFunction,
     YoFunction,
+    CalendarEventFunction,
   ],
   workflows: [
     ParseNoteWorkflow,
@@ -61,6 +68,7 @@ Project({
     UpdateItemWorkflow,
     YoSupWorkflow,
     YoWorkflow,
+    CalendarEventWorkflow,
   ],
   triggers: [
     ParseNoteMessageShortcut,
@@ -70,7 +78,8 @@ Project({
     UpdateItemEventReactji3,
     YoSupWebhook,
     YoShortcut,
+    CalendarEventWebhook,
   ],
   tables: [Items, Notes],
-  outgoingDomains: [],
+  outgoingDomains: ["www.googleapis.com"],
 });
